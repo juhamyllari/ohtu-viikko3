@@ -16,6 +16,14 @@ public class Submission {
     public int getWeek() {
         return week;
     }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public List<Integer> getExercises() {
+        return exercises;
+    }
     
     private String exercisesToString() {
         return exercises
