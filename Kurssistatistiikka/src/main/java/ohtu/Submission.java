@@ -25,7 +25,11 @@ public class Submission {
         return exercises;
     }
     
-    private String exercisesToString() {
+    public String getCourse() {
+        return course;
+    }
+    
+    public String exercisesToString() {
         return exercises
                 .stream()
                 .map(i -> i.toString())
