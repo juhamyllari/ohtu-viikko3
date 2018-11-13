@@ -1,5 +1,6 @@
 package ohtu;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Course {
@@ -14,6 +15,15 @@ public class Course {
     private String __v;
     private String fullName;
     private int[] exercises;
+    private CourseStats stats;
+
+    public void fetchCourseStats() throws IOException {
+        this.stats = CourseStats.getCourseStats("https://studies.cs.helsinki.fi/courses/" + name + "/stats");
+    }
+    
+    public CourseStats getStats() {
+        return stats;
+    }
 
     public String getId() {
         return _id;

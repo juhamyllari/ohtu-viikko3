@@ -14,6 +14,8 @@ import org.apache.http.client.fluent.Request;
 public class Main {
 
     private static final String COURSES_URL = "https://studies.cs.helsinki.fi/courses/courseinfo";
+    private static final String OHTU_STATS_URL = "https://studies.cs.helsinki.fi/courses/ohtu2018/stats";
+    private static final String RAILS_STATS_URL = "https://studies.cs.helsinki.fi/courses/rails2018/stats";
 
     public static void main(String[] args) throws IOException {
         // ÄLÄ laita githubiin omaa opiskelijanumeroasi
@@ -36,12 +38,14 @@ public class Main {
 
     private static Course[] getCourses(String coursesUrl) throws IOException {
         String bodyText = Request.Get(coursesUrl).execute().returnContent().asString();
-        System.out.println(bodyText);
         Gson mapper = new Gson();
         Course[] courses = mapper.fromJson(bodyText, Course[].class);
+        for (Course course : courses) {
+            course.fetchCourseStats();
+        }
         return courses;
     }
-    
+
     private static void printStudentSubmissions(String studentId) throws IOException {
         Submission[] subs = getStudentSubmissions(studentId);
         Course[] allCourses = getCourses(COURSES_URL);
@@ -55,7 +59,7 @@ public class Main {
                 .map(courseName -> getCourseByName(allCourses, courseName))
                 .collect(Collectors.toList());
 
-        System.out.println("Student " + studentId + "\n");
+        System.out.println("\nStudent " + studentId + "\n");
 
         for (Course studentsCourse : studentsCourses) {
             List<Submission> courseSubmissions = Arrays.stream(subs)
@@ -87,13 +91,19 @@ public class Main {
         int totalHours = subs.stream().mapToInt(sub -> sub.getHours()).sum();
         int totalExercisesDone = subs.stream().mapToInt(sub -> sub.getExercises().size()).sum();
         int maxExercises = course.exercisesUpToNow();
-        
+        CourseStats stats = course.getStats();
+
         System.out.println(course.toString());
         subs.forEach(sub -> printSubmission(sub, course));
-        System.out.println("In total: " 
+        System.out.println("In total: "
                 + totalExercisesDone + "/" + maxExercises + " exercises in "
-                + totalHours 
+                + totalHours
                 + " hours ");
+        
+        System.out.println("The course has a total of "
+                + stats.totalSubmissions() + " submissions comprising "
+                + stats.totalExercises() + " exercises completed in "
+                + stats.totalHours() + " hours.");
     }
 
 }
