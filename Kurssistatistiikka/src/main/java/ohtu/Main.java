@@ -2,8 +2,6 @@ package ohtu;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +12,6 @@ import org.apache.http.client.fluent.Request;
 public class Main {
 
     private static final String COURSES_URL = "https://studies.cs.helsinki.fi/courses/courseinfo";
-    private static final String OHTU_STATS_URL = "https://studies.cs.helsinki.fi/courses/ohtu2018/stats";
-    private static final String RAILS_STATS_URL = "https://studies.cs.helsinki.fi/courses/rails2018/stats";
 
     public static void main(String[] args) throws IOException {
         // ÄLÄ laita githubiin omaa opiskelijanumeroasi
