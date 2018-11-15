@@ -6,6 +6,9 @@ import java.util.List;
 import ohtu.data_access.UserDao;
 
 public class AuthenticationService {
+    
+    private static final int USERNAME_MIN_LENGTH = 3;
+    private static final int PASSWORD_MIN_LENGTH = 8;
 
     private UserDao userDao;
 
@@ -39,7 +42,18 @@ public class AuthenticationService {
     }
 
     private boolean invalid(String username, String password) {
-        // validity check of username and password
+        if (username.length() < USERNAME_MIN_LENGTH) {
+            return true;
+        }
+        if (!username.matches("^[a-z]*$")) {
+            return true;
+        }
+        if (password.length() < PASSWORD_MIN_LENGTH) {
+            return true;
+        }
+        if (password.chars().allMatch(i -> Character.isAlphabetic(i))) {
+            return true;
+        }
 
         return false;
     }
