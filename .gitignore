@@ -2,3 +2,4 @@
 */.gradle
 /HelloCucumber/.nb-gradle/
 /LoginCucumber/.nb-gradle/
+/WebLogin/.nb-gradle/
